@@ -19,3 +19,11 @@ $customTheme: mat.define-theme();
 .container {
     @apply mx-4 max-w-fit
 }
+
+.text-primary {
+    color: #7d00fa;
+}
+
+button.match-input-height {
+    height: var(--mat-form-field-container-height) !important;
+}
