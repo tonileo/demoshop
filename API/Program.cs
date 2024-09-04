@@ -22,7 +22,7 @@ builder.Services.AddCors();
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
 {
-    var connString = builder.Configuration.GetConnectionString("Redis") 
+    var connString = builder.Configuration.GetConnectionString("Redis")
         ?? throw new Exception("Cannot get redis connection string");
     var configuration = ConfigurationOptions.Parse(connString, true);
     return ConnectionMultiplexer.Connect(configuration);
@@ -40,7 +40,7 @@ app.UseMiddleware<ExceptionMiddleware>();
 app.UseCors(x => x.AllowAnyHeader()
     .AllowAnyMethod()
     .AllowCredentials()
-    .WithOrigins("http://localhost:4200","https://localhost:4200"));
+    .WithOrigins("http://localhost:4200", "https://localhost:4200"));
 
 app.MapControllers();
 app.MapGroup("api").MapIdentityApi<AppUser>();
