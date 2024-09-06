@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Cart, CartItem } from '../../shared/models/cart';
 import { Product } from '../../shared/models/product';
 import { map, retry } from 'rxjs';
+import { DeliveryMethod } from '../../shared/models/deliveryMethod';
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +17,16 @@ export class CartService {
   itemCount = computed(() => {
     return this.cart()?.items.reduce((sum, item) => sum + item.quantity, 0)
   });
+
+  selectedDelivery = signal<DeliveryMethod | null>(null);
+
   totals = computed(() => {
     const cart = this.cart();
+    const delivery = this.selectedDelivery();
     if (!cart) return null;
 
     const subtotal = cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0)
-    const shipping = 0;
+    const shipping = delivery ? delivery.price : 0;
     const discount = 0;
     return {
       subtotal,
@@ -31,7 +36,7 @@ export class CartService {
     }
   })
 
-  getCart(id: string){
+  getCart(id: string) {
     return this.http.get<Cart>(this.baseUrl + 'cart?id=' + id).pipe(
       map(cart => {
         this.cart.set(cart);
@@ -40,35 +45,35 @@ export class CartService {
     )
   }
 
-  setCart(cart: Cart){
+  setCart(cart: Cart) {
     return this.http.post<Cart>(this.baseUrl + 'cart', cart).subscribe({
       next: cart => this.cart.set(cart)
     })
   }
 
-  addItemtoCart(item: CartItem | Product, quantity = 1){
+  addItemtoCart(item: CartItem | Product, quantity = 1) {
     const cart = this.cart() ?? this.createCart();
-    if (this.isProduct(item)){
+    if (this.isProduct(item)) {
       item = this.mapProductToCartItem(item);
     }
     cart.items = this.addOrUpdateItem(cart.items, item, quantity);
     this.setCart(cart);
   }
 
-  removeItemFromCart(productId: number, quantity = 1){
+  removeItemFromCart(productId: number, quantity = 1) {
     const cart = this.cart();
     if (!cart) return;
 
     const index = cart.items.findIndex(x => x.productId === productId);
-    if (index !== -1){
-      if (cart.items[index].quantity > quantity){
+    if (index !== -1) {
+      if (cart.items[index].quantity > quantity) {
         cart.items[index].quantity -= quantity;
-      }else {
+      } else {
         cart.items.splice(index, 1);
       }
-      if (cart.items.length === 0){
+      if (cart.items.length === 0) {
         this.deleteCart();
-      }else{
+      } else {
         this.setCart(cart);
       }
     }
@@ -87,7 +92,7 @@ export class CartService {
     if (index === -1) {
       item.quantity = quantity;
       items.push(item);
-    }else{
+    } else {
       items[index].quantity += quantity;
     }
     return items;
