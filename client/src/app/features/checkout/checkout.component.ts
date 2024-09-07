@@ -18,6 +18,7 @@ import { CurrencyPipe} from '@angular/common';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { OrderToCreate, ShippingAddress } from '../../shared/models/order';
 import { OrderService } from '../../core/services/order.service';
+import { trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-checkout',
@@ -128,6 +129,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           const orderResult = await firstValueFrom(this.orderService.createOrder(order));
 
           if (orderResult){
+            this.orderService.orderComplete = true;
             this.cartService.deleteCart();
             this.cartService.selectedDelivery.set(null);
             this.router.navigateByUrl('/checkout/success');
