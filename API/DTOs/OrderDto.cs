@@ -10,6 +10,7 @@ public class OrderDto
     public required ShippingAddress ShippingAddress { get; set; }
     public required string DeliveryMethod { get; set; }
     public decimal ShippingPrice { get; set; }
+    public decimal Discount { get; set; }
     public required PaymentSummary PaymentSummary { get; set; }
     public required List<OrderItemDto> OrderItems { get; set; }
     public decimal Subtotal { get; set; }

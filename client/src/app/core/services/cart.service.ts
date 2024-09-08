@@ -1,9 +1,9 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Cart, CartItem } from '../../shared/models/cart';
+import { Cart, CartItem, Coupon } from '../../shared/models/cart';
 import { Product } from '../../shared/models/product';
-import { firstValueFrom, map, retry, tap } from 'rxjs';
+import { firstValueFrom, map, Observable, retry, tap } from 'rxjs';
 import { DeliveryMethod } from '../../shared/models/deliveryMethod';
 
 @Injectable({
@@ -25,14 +25,24 @@ export class CartService {
     const delivery = this.selectedDelivery();
     if (!cart) return null;
 
+    let discountValue = 0;
+
     const subtotal = cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0)
     const shipping = delivery ? delivery.price : 0;
-    const discount = 0;
+
+    if (cart.coupon){
+      if (cart.coupon.amountOff) {
+        discountValue = cart.coupon.amountOff;
+      }else if (cart.coupon.percentOff) {
+        discountValue = subtotal * (cart.coupon.percentOff / 100);
+      }
+    }
+
     return {
       subtotal,
       shipping,
-      discount,
-      total: subtotal + shipping - discount
+      discount: discountValue,
+      total: subtotal + shipping - discountValue
     }
   })
 
@@ -80,6 +90,7 @@ export class CartService {
       }
     }
   }
+
   deleteCart() {
     this.http.delete(this.baseUrl + 'cart?id=' + this.cart()?.id).subscribe({
       next: () => {
@@ -121,5 +132,9 @@ export class CartService {
 
     localStorage.setItem('cart_id', cart.id);
     return cart;
+  }
+
+  applyDiscount(code: string) : Observable<Coupon> {
+    return this.http.get<Coupon>(this.baseUrl + 'coupons/' + code);
   }
 }

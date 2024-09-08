@@ -58,6 +58,7 @@ public class OrdersController(ICartService cartService, IUnitOfWork unitOfWork) 
             ShippingAddress = orderDto.ShippingAddress,
             Subtotal = items.Sum(x => x.Price * x.Quantity),
             PaymentSummary = orderDto.PaymentSummary,
+            Discount = orderDto.Discount,
             PaymentIntentId = cart.PaymentIntentId,
             BuyerEmail = email
         };

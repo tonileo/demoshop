@@ -1,3 +1,5 @@
+import { Coupon } from "./cart"
+
 export interface Order {
     id: number
     orderDate: string
@@ -5,6 +7,7 @@ export interface Order {
     shippingAddress: ShippingAddress
     deliveryMethod: string
     shippingPrice: number
+    discount?: number
     paymentSummary: PaymentSummary
     orderItems: OrderItem[]
     subtotal: number
@@ -42,5 +45,6 @@ export interface Order {
     cartId: string;
     deliveryMethodId: number;
     shippingAddress: ShippingAddress;
+    discount?: number;
     paymentSummary: PaymentSummary;
   }

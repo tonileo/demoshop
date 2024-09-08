@@ -6,6 +6,7 @@ public class Order : BaseEntity
     public required string BuyerEmail { get; set; }
     public ShippingAddress ShippingAddress { get; set; } = null!;
     public DeliveryMethod DeliveryMethod { get; set; } = null!;
+    public decimal Discount { get; set; }
     public PaymentSummary PaymentSummary { get; set; } = null!;
     public List<OrderItem> OrderItems { get; set; } = [];
     public decimal Subtotal { get; set; }
@@ -14,6 +15,6 @@ public class Order : BaseEntity
 
     public decimal GetTotal()
     {
-        return Subtotal + DeliveryMethod.Price;
+        return Subtotal - Discount + DeliveryMethod.Price;
     }
 }
