@@ -49,10 +49,16 @@ app.UseCors(x => x.AllowAnyHeader()
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.MapHub<NotificationHub>("/hub/notifications");
 
 app.MapControllers();
 app.MapGroup("api").MapIdentityApi<AppUser>();
+
+app.MapFallbackToController("Index", "Fallback");
 
 try
 {
