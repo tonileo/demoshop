@@ -99,6 +99,19 @@ public class ProductsController(IUnitOfWork unitOfWork) : BaseApiController
         return Ok(await unitOfWork.Repository<Product>().ListAsync(spec));
     }
 
+    [Cache(10000)]
+    [HttpGet("typesHomePage")]
+    public async Task<ActionResult<IReadOnlyList<Product>>> GetTypesHomePage()
+    {
+       var products = await unitOfWork.Repository<Product>().ListAllAsync();
+
+        var types = products.GroupBy(x => x.Brand)
+            .Select(g => g.Last())
+            .ToList();
+
+        return Ok(types);
+    }
+
     private bool ProductExists(int id)
     {
         return unitOfWork.Repository<Product>().Exists(id);
