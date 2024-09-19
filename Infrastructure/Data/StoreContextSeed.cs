@@ -11,14 +11,23 @@ public class StoreContextSeed
     {
         if (!userManager.Users.Any(x => x.UserName == "admin@test.com"))
         {
-            var user = new AppUser
+            var admin = new AppUser
             {
                 UserName = "admin@test.com",
                 Email = "admin@test.com"
             };
 
-            await userManager.CreateAsync(user, "Pa$$w0rd");
-            await userManager.AddToRoleAsync(user, "Admin");
+            var customer = new AppUser
+            {
+                UserName = "customer@test.com",
+                Email = "customer@test.com"
+            };
+
+            await userManager.CreateAsync(admin, "Pa$$w0rd");
+            await userManager.AddToRoleAsync(admin, "Admin");
+
+            await userManager.CreateAsync(customer, "Pa$$w0rd");
+            await userManager.AddToRoleAsync(customer, "Customer");
         }
 
         var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);

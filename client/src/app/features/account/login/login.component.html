@@ -1,5 +1,5 @@
 <mat-card class="max-w-lg mx-auto mt-32 p-8 bg-white">
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="loginForm">
         <div class="text-center mb-6">
             <h1 class="text-3xl font-semibold text-primary">Login</h1>
         </div>
@@ -14,6 +14,8 @@
             <input formControlName="password" type="password" placeholder="Password" matInput />
         </mat-form-field>
 
-        <button mat-flat-button type="submit" class="w-full py-2">Sign in</button>
+        <button mat-flat-button (click)="onSubmit('')" class="w-full py-2 mb-4">Sign in</button>
+        <button mat-flat-button (click)="onSubmit('customer')" class="w-full py-2 mb-4">Login in as Customer</button>
+        <button mat-flat-button (click)="onSubmit('admin')" class="w-full py-2">Login in as Admin</button>
     </form>
 </mat-card>

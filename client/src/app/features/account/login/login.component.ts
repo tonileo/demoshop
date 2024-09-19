@@ -39,7 +39,21 @@ export class LoginComponent {
     password: ['']
   });
 
-  onSubmit() {
+  onSubmit(buttonType: string) {
+
+    switch (buttonType){
+      case 'customer':
+        this.loginForm.value.email = 'customer@test.com';
+        this.loginForm.value.password = 'Pa$$w0rd';
+        break;
+      case 'admin':
+        this.loginForm.value.email = 'admin@test.com';
+        this.loginForm.value.password = 'Pa$$w0rd';
+        break;
+      default:
+        break;
+    }
+
     this.accountService.login(this.loginForm.value).subscribe({
       next: () => {
         this.accountService.getUserInfo().subscribe();
