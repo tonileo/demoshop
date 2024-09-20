@@ -41,6 +41,14 @@
                         [disabled]="!completionStatus().card" 
                         matStepperNext mat-flat-button>Next</button>
                 </div>
+
+                <div class="mt-6 border border-red-300 p-5">
+                    <ul class="flex flex-col gap-3 justify-between">
+                        <p class="font-semibold">Use this for testing:</p> 
+                        <li>Mastercard: 5555 5555 5555 4444 | Expiration date - 01/26 | CVC - 111</li>
+                        <li>Visa: 4242 4242 4242 4242 | Expiration date - 01/26 | CVC - 111</li>
+                    </ul>
+                </div>
             </mat-step>
 
             <mat-step label="Confirmation">
