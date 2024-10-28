@@ -2,7 +2,7 @@
 
 **Demoshop** is a e-commerce store focused on selling ski products.
 
-[Access the live app here](https://demoshop2024.azurewebsites.net) (Please wait ~20 seconds for the initial load).
+[Access the live app here](https://demoshop2024.azurewebsites.net) (Please wait ~40 seconds for the initial load).
 
 ## Technologies
 
