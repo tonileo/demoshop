@@ -61,10 +61,10 @@
    - Install and authenticate the Stripe CLI to use local webhooks. Generate a whsec key by navigating to Stripe Dashboard > Developers > Webhooks > Add local listener. Use the following commands to enable Stripe events in      development:
 
    ~~~ bash
-   stripe login
+   .\stripe login
    ~~~
    ~~~ bash
-   stripe listen --forward-to https://localhost:5001/api/payments/webhook -e payment_intent.succeeded
+   .\stripe listen --forward-to https://localhost:5001/api/payments/webhook -e payment_intent.succeeded
    ~~~
 
 4. **Set up the databases (SQL Server and Redis)**:
