@@ -14,7 +14,7 @@
 
 ### Prerequisites
 - [.NET 8 SDK](https://dotnet.microsoft.com/download)
-- Dcoker
+- Docker
 - NodeJS (at least v20.11.1)
 
 ### Installation Steps
